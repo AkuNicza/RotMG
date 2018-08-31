@@ -204,13 +204,13 @@ public class Player extends Character
 		var _local_2:uint;
 		while (_local_2 < GeneralConstants.NUM_EQUIPMENT_SLOTS)
 		{
-			if (((equipment_) && (equipment_.length > _local_2)))
+			if (equipment_ && equipment_.length > _local_2)
 			{
 				_local_3 = equipment_[_local_2];
 				if (_local_3 != -1)
 				{
 					_local_4 = ObjectLibrary.xmlLibrary_[_local_3];
-					if (((!(_local_4 == null)) && (_local_4.hasOwnProperty("FameBonus"))))
+					if (_local_4 != null && _local_4.hasOwnProperty("FameBonus"))
 					{
 						_local_1 = (_local_1 + int(_local_4.FameBonus));
 					}
@@ -239,13 +239,13 @@ public class Player extends Character
 		var _local_1:uint;
 		while (_local_1 < GeneralConstants.NUM_EQUIPMENT_SLOTS)
 		{
-			if (((equipment_) && (equipment_.length > _local_1)))
+			if (equipment_ && equipment_.length > _local_1)
 			{
 				_local_2 = equipment_[_local_1];
 				if (_local_2 != -1)
 				{
 					_local_3 = ObjectLibrary.xmlLibrary_[_local_2];
-					if (((!(_local_3 == null)) && (_local_3.hasOwnProperty("ActivateOnEquip"))))
+					if (_local_3 != null && _local_3.hasOwnProperty("ActivateOnEquip"))
 					{
 						for each (_local_4 in _local_3.ActivateOnEquip)
 						{
@@ -337,7 +337,7 @@ public class Player extends Character
 			for each (_local_3 in map_.goDict_)
 			{
 				_local_4 = (_local_3 as Player);
-				if (((!(_local_4 == null)) && (!(_local_4 == this))))
+				if (_local_4 != null && _local_4 != this)
 				{
 					_local_4.setGuildName(_local_4.guildName_);
 				}
@@ -345,7 +345,7 @@ public class Player extends Character
 		}
 		else
 		{
-			_local_5 = ((((!(_local_2 == null)) && (!(_local_2.guildName_ == null))) && (!(_local_2.guildName_ == ""))) && (_local_2.guildName_ == this.guildName_));
+			_local_5 = (_local_2 != null && _local_2.guildName_ != null && _local_2.guildName_ != "" && _local_2.guildName_ == this.guildName_);
 			if (_local_5 != this.isFellowGuild_)
 			{
 				this.isFellowGuild_ = _local_5;
@@ -356,7 +356,7 @@ public class Player extends Character
 
 	public function isTeleportEligible(_arg_1:Player):Boolean
 	{
-		return (!(((_arg_1.dead_) || (_arg_1.isPaused())) || (_arg_1.isInvisible())));
+		return (!_arg_1.dead_ || _arg_1.isPaused() || _arg_1.isInvisible());
 	}
 
 	public function msUtilTeleport():int
@@ -375,7 +375,7 @@ public class Player extends Character
 		var _local_2:int = this.msUtilTeleport();
 		if (_local_2 > 0)
 		{
-			if (!((_local_2 > MS_BETWEEN_TELEPORT) && (_arg_1.isFellowGuild_)))
+			if (_local_2 >! MS_BETWEEN_TELEPORT && !_arg_1.isFellowGuild_)
 			{
 				this.addTextLine.dispatch(this.makeErrorMessage(TextKey.PLAYER_TELEPORT_COOLDOWN, {"seconds": int(((_local_2 / 1000) + 1))}));
 				return (false);
@@ -405,7 +405,7 @@ public class Player extends Character
 
 	public function levelUpEffect(_arg_1:String, _arg_2:Boolean = true):void
 	{
-		if (((!(Parameters.data_.noParticlesMaster)) && (_arg_2)))
+		if (!Parameters.data_.noParticlesMaster && _arg_2)
 		{
 			this.levelUpParticleEffect();
 		}
@@ -446,7 +446,7 @@ public class Player extends Character
 
 	private function bForceExp():Boolean
 	{
-		return ((Parameters.data_.forceEXP) && ((Parameters.data_.forceEXP == 1) || ((Parameters.data_.forceEXP == 2) && (map_.player_ == this))));
+		return (Parameters.data_.forceEXP && Parameters.data_.forceEXP == 1 || Parameters.data_.forceEXP == 2 && map_.player_ == this);
 	}
 
 	public function updateFame(_arg_1:int):void
@@ -493,7 +493,7 @@ public class Player extends Character
 
 	public function modifyMove(_arg_1:Number, _arg_2:Number, _arg_3:Point):void
 	{
-		if (((isParalyzed()) || (isPetrified())))
+		if (isParalyzed() || isPetrified())
 		{
 			_arg_3.x = x_;
 			_arg_3.y = y_;
@@ -501,7 +501,7 @@ public class Player extends Character
 		}
 		var _local_4:Number = (_arg_1 - x_);
 		var _local_5:Number = (_arg_2 - y_);
-		if (((((_local_4 < MOVE_THRESHOLD) && (_local_4 > -(MOVE_THRESHOLD))) && (_local_5 < MOVE_THRESHOLD)) && (_local_5 > -(MOVE_THRESHOLD))))
+		if (_local_4 < MOVE_THRESHOLD && _local_4 > -(MOVE_THRESHOLD) && _local_5 < MOVE_THRESHOLD && _local_5 > -(MOVE_THRESHOLD))
 		{
 			this.modifyStep(_arg_1, _arg_2, _arg_3);
 			return;
@@ -511,7 +511,7 @@ public class Player extends Character
 		_arg_3.x = x_;
 		_arg_3.y = y_;
 		var _local_8:Boolean;
-		while ((!(_local_8)))
+		while (!_local_8)
 		{
 			if ((_local_7 + _local_6) >= 1)
 			{
@@ -529,7 +529,7 @@ public class Player extends Character
 		var _local_7:Number;
 		var _local_4:Boolean = ((((x_ % 0.5) == 0) && (!(_arg_1 == x_))) || (!(int((x_ / 0.5)) == int((_arg_1 / 0.5)))));
 		var _local_5:Boolean = ((((y_ % 0.5) == 0) && (!(_arg_2 == y_))) || (!(int((y_ / 0.5)) == int((_arg_2 / 0.5)))));
-		if ((((!(_local_4)) && (!(_local_5))) || (this.isValidPosition(_arg_1, _arg_2))))
+		if (!_local_4 && !_local_5 || this.isValidPosition(_arg_1, _arg_2))
 		{
 			_arg_3.x = _arg_1;
 			_arg_3.y = _arg_2;
@@ -555,7 +555,7 @@ public class Player extends Character
 		{
 			_arg_3.x = _arg_1;
 			_arg_3.y = _local_7;
-			if (((!(square_ == null)) && (!(square_.props_.slideAmount_ == 0))))
+			if (square_ != null && square_.props_.slideAmount_ != 0)
 			{
 				this.resetMoveVector(false);
 			}
@@ -565,7 +565,7 @@ public class Player extends Character
 		{
 			_arg_3.x = _local_6;
 			_arg_3.y = _arg_2;
-			if (((!(square_ == null)) && (!(square_.props_.slideAmount_ == 0))))
+			if (square_ != null && square_.props_.slideAmount_ != 0)
 			{
 				this.resetMoveVector(true);
 			}
@@ -623,7 +623,7 @@ public class Player extends Character
 	public function isValidPosition(_arg_1:Number, _arg_2:Number):Boolean
 	{
 		var _local_3:Square = map_.getSquare(_arg_1, _arg_2);
-		if (((!(square_ == _local_3)) && ((_local_3 == null) || (!(_local_3.isWalkable())))))
+		if (square_ != _local_3 && _local_3 == null || !_local_3.isWalkable())
 		{
 			return (false);
 		}
@@ -706,7 +706,7 @@ public class Player extends Character
 	public function isFullOccupy(_arg_1:Number, _arg_2:Number):Boolean
 	{
 		var _local_3:Square = map_.lookupSquare(_arg_1, _arg_2);
-		return (((_local_3 == null) || (_local_3.tileType_ == 0xFF)) || ((!(_local_3.obj_ == null)) && (_local_3.obj_.props_.fullOccupy_)));
+		return (_local_3 == null || _local_3.tileType_ == 0xFF || _local_3.obj_ != null && _local_3.obj_.props_.fullOccupy_);
 	}
 
 	override public function update(_arg_1:int, _arg_2:int):Boolean
@@ -718,7 +718,7 @@ public class Player extends Character
 		var _local_7:Number;
 		var _local_8:int;
 		var _local_9:Vector.<uint>;
-		if (((this.tierBoost) && (!(isPaused()))))
+		if (this.tierBoost && !isPaused())
 		{
 			this.tierBoost = (this.tierBoost - _arg_2);
 			if (this.tierBoost < 0)
@@ -726,7 +726,7 @@ public class Player extends Character
 				this.tierBoost = 0;
 			}
 		}
-		if (((this.dropBoost) && (!(isPaused()))))
+		if (this.dropBoost && !isPaused())
 		{
 			this.dropBoost = (this.dropBoost - _arg_2);
 			if (this.dropBoost < 0)
@@ -734,7 +734,7 @@ public class Player extends Character
 				this.dropBoost = 0;
 			}
 		}
-		if (((this.xpTimer) && (!(isPaused()))))
+		if (this.xpTimer && !isPaused())
 		{
 			this.xpTimer = (this.xpTimer - _arg_2);
 			if (this.xpTimer < 0)
@@ -742,9 +742,9 @@ public class Player extends Character
 				this.xpTimer = 0;
 			}
 		}
-		if (((isHealing()) && (!(isPaused()))))
+		if (isHealing() && !isPaused())
 		{
-			if (((!(Parameters.data_.noParticlesMaster)) && (this.healingEffect_ == null)))
+			if (!Parameters.data_.noParticlesMaster && this.healingEffect_ == null)
 			{
 				this.healingEffect_ = new HealingEffect(this);
 				map_.addObj(this.healingEffect_, x_, y_);
@@ -758,7 +758,7 @@ public class Player extends Character
 				this.healingEffect_ = null;
 			}
 		}
-		if (((map_.player_ == this) && (isPaused())))
+		if (map_.player_ == this && isPaused())
 		{
 			return (true);
 		}
@@ -770,7 +770,7 @@ public class Player extends Character
 				_local_3 = (_local_3 + ((_arg_2 * Parameters.PLAYER_ROTATE_SPEED) * this.rotate_));
 				Parameters.data_.cameraAngle = _local_3;
 			}
-			if (((!(this.relMoveVec_.x == 0)) || (!(this.relMoveVec_.y == 0))))
+			if (this.relMoveVec_.x != 0 || this.relMoveVec_.y != 0)
 			{
 				_local_4 = this.getMoveSpeed();
 				_local_5 = Math.atan2(this.relMoveVec_.y, this.relMoveVec_.x);
@@ -796,7 +796,7 @@ public class Player extends Character
 			}
 			else
 			{
-				if (((moveVec_.length > 0.00012) && (square_.props_.slideAmount_ > 0)))
+				if (moveVec_.length > 0.00012 && square_.props_.slideAmount_ > 0)
 				{
 					moveVec_.scaleBy(square_.props_.slideAmount_);
 				}
@@ -806,7 +806,7 @@ public class Player extends Character
 					moveVec_.y = 0;
 				}
 			}
-			if (((!(square_ == null)) && (square_.props_.push_)))
+			if (square_ != null && square_.props_.push_)
 			{
 				moveVec_.x = (moveVec_.x - (square_.props_.animate_.dx_ / 1000));
 				moveVec_.y = (moveVec_.y - (square_.props_.animate_.dy_ / 1000));
@@ -820,7 +820,7 @@ public class Player extends Character
 				return (false);
 			}
 		}
-		if ((((((map_.player_ == this) && (square_.props_.maxDamage_ > 0)) && ((square_.lastDamage_ + 500) < _arg_1)) && (!(isInvincible()))) && ((square_.obj_ == null) || (!(square_.obj_.props_.protectFromGroundDamage_)))))
+		if (map_.player_ == this && square_.props_.maxDamage_ > 0 && (square_.lastDamage_ + 500) < _arg_1 && !isInvincible() && (square_.obj_ == null || !square_.obj_.props_.protectFromGroundDamage_))
 		{
 			_local_8 = map_.gs_.gsc_.getNextDamage(square_.props_.minDamage_, square_.props_.maxDamage_);
 			_local_9 = new Vector.<uint>();

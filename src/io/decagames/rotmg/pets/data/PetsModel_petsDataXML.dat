@@ -6044,7 +6044,7 @@
       <BagType>8</BagType>
       <feedPower>2000</feedPower>
    </Object>
-   <Object id="Baby Leviathan" type="0x4c40">
+   <Object id="Mini Leviathan" type="0x4c40">
       <Pet/>
       <Class>Pet</Class>
       <Texture>
@@ -6053,13 +6053,13 @@
       </Texture>
       <Family>Reptile</Family>
       <Rarity>Rare</Rarity>
-      <DefaultSkin>Baby Leviathan Skin</DefaultSkin>
+      <DefaultSkin>Mini Leviathan Skin</DefaultSkin>
       <Size>80</Size>
       <NoHatchOrFuse/>
    </Object>
-   <Object type="0x4c41" id="Baby Leviathan Skin">
+   <Object type="0x4c41" id="Mini Leviathan Skin">
       <PetSkin/>
-      <DisplayId>Baby Leviathan</DisplayId>
+      <DisplayId>Mini Leviathan</DisplayId>
       <Class>PetSkin</Class>
       <Family>Reptile</Family>
       <Rarity>Rare</Rarity>
@@ -6068,8 +6068,8 @@
          <Index>148</Index>
       </AnimatedTexture>
    </Object>
-   <Object type="0x4c42" id="Baby Leviathan Pet Stone">
-      <DisplayId>Baby Leviathan Pet Skin</DisplayId>
+   <Object type="0x4c42" id="Mini Leviathan Pet Stone">
+      <DisplayId>Mini Leviathan Pet Skin</DisplayId>
       <Class>Equipment</Class>
       <Item/>
       <AnimatedTexture>
@@ -6077,7 +6077,7 @@
          <Index>148</Index>
       </AnimatedTexture>
       <SlotType>10</SlotType>
-      <Description>This cute manatee is ready to shoot your enemies with 10 billion guns!\n\nSprite Credits: Lovens\n\nUnlocks Baby Leviathan Skin of the Reptile family. The skin will be added to your Pet Wardrobe in the Pet Yard and can be used to change the appearance of your pet!</Description>
+      <Description>This cute manatee is ready to shoot your enemies with 10 billion guns!\n\nSprite Credits: Lovens\n\nUnlocks Mini Leviathan Skin of the Reptile family. The skin will be added to your Pet Wardrobe in the Pet Yard and can be used to change the appearance of your pet!</Description>
       <Activate skinType="19521">UnlockPetSkin</Activate>
       <Consumable/>
       <Soulbound/>

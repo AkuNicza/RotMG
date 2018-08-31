@@ -262,114 +262,76 @@
       </Projectile>
    </Object>
    <Object type="0x741e" id="md1 Right Hand spawner">
-      <Class>Character</Class>
-      <Enemy/>
+      <Class>GameObject</Class>
       <Texture>
          <File>invisible</File>
          <Index>0</Index>
       </Texture>
-      <NoMiniMap/>
       <Size>0</Size>
-      <Exp>0</Exp>
-      <StasisImmune/>
-      <StunImmune/>
-      <ParalyzeImmune/>
    </Object>
    <Object type="0x741f" id="md1 Left Hand spawner">
-      <Class>Character</Class>
-      <Enemy/>
+      <Class>GameObject</Class>
       <Texture>
          <File>invisible</File>
          <Index>0</Index>
       </Texture>
-      <NoMiniMap/>
       <Size>0</Size>
-      <Exp>0</Exp>
-      <StasisImmune/>
    </Object>
    <Object type="0x7420" id="md1 Governor">
-      <Class>Character</Class>
-      <Enemy/>
+      <Class>GameObject</Class>
       <Texture>
          <File>invisible</File>
          <Index>0</Index>
       </Texture>
-      <NoMiniMap/>
       <Size>0</Size>
-      <Exp>0</Exp>
-      <StasisImmune/>
    </Object>
    <Object type="0x7429" id="md1 LeftHandSmash">
-      <Class>Character</Class>
-      <Enemy/>
+      <Class>GameObject</Class>
       <Texture>
          <File>invisible</File>
          <Index>0</Index>
       </Texture>
-      <NoMiniMap/>
       <Size>0</Size>
-      <Exp>0</Exp>
-      <StasisImmune/>
    </Object>
    <Object type="0x742a" id="md1 RightHandSmash">
-      <Class>Character</Class>
-      <Enemy/>
+      <Class>GameObject</Class>
       <Texture>
          <File>invisible</File>
          <Index>0</Index>
       </Texture>
-      <NoMiniMap/>
       <Size>0</Size>
-      <Exp>0</Exp>
-      <StasisImmune/>
    </Object>
    <Object type="0x7424" id="md1 Right Burst">
-      <Class>Character</Class>
-      <Enemy/>
+      <Class>GameObject</Class>
       <Texture>
          <File>invisible</File>
          <Index>0</Index>
       </Texture>
-      <NoMiniMap/>
       <Size>0</Size>
-      <Exp>0</Exp>
-      <StasisImmune/>
    </Object>
    <Object type="0x7425" id="md1 Mid Burst">
-      <Class>Character</Class>
-      <Enemy/>
+      <Class>GameObject</Class>
       <Texture>
          <File>invisible</File>
          <Index>0</Index>
       </Texture>
-      <NoMiniMap/>
       <Size>0</Size>
-      <Exp>0</Exp>
-      <StasisImmune/>
    </Object>
    <Object type="0x7426" id="md1 Left Burst">
-      <Class>Character</Class>
-      <Enemy/>
+      <Class>GameObject</Class>
       <Texture>
          <File>invisible</File>
          <Index>0</Index>
       </Texture>
-      <NoMiniMap/>
       <Size>0</Size>
-      <Exp>0</Exp>
-      <StasisImmune/>
    </Object>
    <Object type="0x7430" id="md1 Lava Makers">
-      <Class>Character</Class>
-      <Enemy/>
+      <Class>GameObject</Class>
       <Texture>
          <File>invisible</File>
          <Index>0</Index>
       </Texture>
-      <NoMiniMap/>
       <Size>0</Size>
-      <Exp>0</Exp>
-      <StasisImmune/>
    </Object>
    <Object type="0x7421" id="md1 Right Hand of Shaitan fake">
       <DisplayId>Right Hand of Shaitan</DisplayId>

@@ -16,7 +16,7 @@ public class Parameters
 {
 
 	public static const BUILD_VERSION:String = "X28.0";
-	public static const MINOR_VERSION:String = "5";
+	public static const MINOR_VERSION:String = "6";
 	public static const ENABLE_ENCRYPTION:Boolean = true;
 	public static const PORT:int = 2050;
 	public static const ALLOW_SCREENSHOT_MODE:Boolean = false;
@@ -121,7 +121,7 @@ public class Parameters
 
 	public static function isGpuRender():Boolean
 	{
-		return (((!(GPURenderError)) && (data_.GPURender)) && (!(Map.forceSoftwareRender)));
+		return (!GPURenderError && data_.GPURender && !Map.forceSoftwareRender);
 	}
 
 	public static function clearGpuRenderEvent(_arg_1:Event):void
@@ -236,7 +236,7 @@ public class Parameters
 		setDefault("toggleBarText", 0);
 		setDefault("toggleToMaxText", false);
 		setDefault("particleEffect", true);
-		if (((data_.hasOwnProperty("playMusic")) && (data_.playMusic == true)))
+		if (data_.hasOwnProperty("playMusic") && data_.playMusic == true)
 		{
 			setDefault("musicVolume", 1);
 		}
@@ -244,7 +244,7 @@ public class Parameters
 		{
 			setDefault("musicVolume", 0);
 		}
-		if (((data_.hasOwnProperty("playSFX")) && (data_.playMusic == true)))
+		if (data_.hasOwnProperty("playSFX") && data_.playMusic == true)
 		{
 			setDefault("SFXVolume", 1);
 		}

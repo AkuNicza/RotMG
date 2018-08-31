@@ -192,7 +192,7 @@ public class GameSprite extends AGameSprite
 
 	public function removeChatPlayerMenu():void
 	{
-		if (((!(this.chatPlayerMenu == null)) && (!(this.chatPlayerMenu.parent == null))))
+		if (this.chatPlayerMenu != null && this.chatPlayerMenu.parent != null)
 		{
 			removeChild(this.chatPlayerMenu);
 			this.chatPlayerMenu = null;
@@ -243,7 +243,7 @@ public class GameSprite extends AGameSprite
 			this.flushQueueSignal.dispatch();
 		}
 		this.isNexus_ = (map.name_ == Map.NEXUS);
-		if (((this.isNexus_) || (map.name_ == Map.DAILY_QUEST_ROOM)))
+		if (this.isNexus_ || map.name_ == Map.DAILY_QUEST_ROOM)
 		{
 			this.creditDisplay_ = new CreditDisplay(this, true, true);
 		}
@@ -261,7 +261,7 @@ public class GameSprite extends AGameSprite
 			"play_platform": _local_1.playPlatform()
 		};
 		MoreObjectUtil.addToObject(_local_3, _local_1.getCredentials());
-		if (((((!(map.name_ == "Kitchen")) && (!(map.name_ == "Tutorial"))) && (!(map.name_ == "Nexus Explanation"))) && (Parameters.data_.watchForTutorialExit == true)))
+		if (map.name_ != "Kitchen" && map.name_ != "Tutorial" && map.name_ != "Nexus Explanation" && Parameters.data_.watchForTutorialExit == true)
 		{
 			Parameters.data_.watchForTutorialExit = false;
 			this.callTracking('rotmg.Marketing.track("tutorialComplete")');
@@ -286,10 +286,10 @@ public class GameSprite extends AGameSprite
 		}
 		else
 		{
-			if ((((((((!(map.name_ == "Arena")) && (!(map.name_ == "Kitchen"))) && (!(map.name_ == "Nexus Explanation"))) && (!(map.name_ == "Vault Explanation"))) && (!(map.name_ == "Guild Explanation"))) && (!(this.evalIsNotInCombatMapArea()))) && (Parameters.data_.showProtips)))
+			if (map.name_ != "Arena" && map.name_ != "Kitchen" && map.name_ != "Nexus Explanation" && map.name_ != "Vault Explanation" && map.name_ != "Guild Explanation" && !this.evalIsNotInCombatMapArea() && Parameters.data_.showProtips)
 			{
 				_local_4 = StaticInjectorContext.getInjector().getInstance(ShowProTipSignal);
-				((_local_4) && (_local_4.dispatch()));
+				(_local_4 && _local_4.dispatch());
 			}
 		}
 		if (map.name_ == Map.DAILY_QUEST_ROOM)
@@ -327,21 +327,21 @@ public class GameSprite extends AGameSprite
 	{
 		var _local_1:NewsModel = StaticInjectorContext.getInjector().getInstance(NewsModel);
 		var _local_2:int = 66;
-		if (((this.giftStatusDisplay) && (this.giftStatusDisplay.isOpen)))
+		if (this.giftStatusDisplay && this.giftStatusDisplay.isOpen)
 		{
 			this.giftStatusDisplay.y = _local_2;
 			_local_2 = (_local_2 + DISPLAY_AREA_Y_SPACE);
 		}
-		if (((this.newsModalButton) && ((NewsModalButton.showsHasUpdate) || (_local_1.hasValidModalNews()))))
+		if (this.newsModalButton && NewsModalButton.showsHasUpdate || _local_1.hasValidModalNews())
 		{
 			this.newsModalButton.y = _local_2;
 			_local_2 = (_local_2 + DISPLAY_AREA_Y_SPACE);
 		}
-		if (((this.specialOfferButton) && (this.specialOfferButton.isSpecialOfferAvailable)))
+		if (this.specialOfferButton && this.specialOfferButton.isSpecialOfferAvailable)
 		{
 			this.specialOfferButton.y = _local_2;
 		}
-		if (((this.newsTicker) && (this.newsTicker.visible)))
+		if (this.newsTicker && this.newsTicker.visible)
 		{
 			this.newsTicker.y = _local_2;
 		}
@@ -495,7 +495,7 @@ public class GameSprite extends AGameSprite
 		var _local_4:Number;
 		var _local_7:GameObject;
 		var _local_8:IInteractiveObject;
-		if (((!(map)) || (!(map.player_))))
+		if (!map || !map.player_)
 		{
 			return;
 		}
@@ -507,7 +507,7 @@ public class GameSprite extends AGameSprite
 		for each (_local_7 in map.goDict_)
 		{
 			_local_8 = (_local_7 as IInteractiveObject);
-			if (((_local_8) && ((!(_local_8 is Pet)) || (this.map.isPetYard))))
+			if (_local_8 && !(_local_8 is Pet) || this.map.isPetYard)
 			{
 				if (((Math.abs((_local_5 - _local_7.x_)) < GeneralConstants.MAXIMUM_INTERACTION_DISTANCE) || (Math.abs((_local_6 - _local_7.y_)) < GeneralConstants.MAXIMUM_INTERACTION_DISTANCE)))
 				{

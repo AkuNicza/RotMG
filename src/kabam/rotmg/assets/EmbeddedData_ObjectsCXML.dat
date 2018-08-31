@@ -588,6 +588,30 @@
       <Exp>1000</Exp>
       <StasisImmune/>
    </Object>
+   <Object type="0x6f9" id="Event Chest MotMG LH">
+      <DisplayId>Event Chest</DisplayId>
+      <Class>Character</Class>
+      <Enemy/>
+      <KeepDamageRecord/>
+      <Texture>
+         <File>d2LofiObjEmbed</File>
+         <Index>0x8d</Index>
+      </Texture>
+      <MaxHitPoints>60000</MaxHitPoints>
+      <Defense>0</Defense>
+      <Size>160</Size>
+      <Exp>1000</Exp>
+      <StasisImmune/>
+   </Object>
+   <Object type="0x6fa" id="Event Chest MotMG LH Helper">
+      <DisplayId>Mysterious voice</DisplayId>
+      <Class>Character</Class>
+      <Size>0</Size>
+      <Texture>
+         <File>d2LofiObjEmbed</File>
+         <Index>0x8d</Index>
+      </Texture>
+   </Object>
    <Object type="0x744F" id="Event Chest MotMG">
       <DisplayId>Event Chest</DisplayId>
       <Class>Character</Class>
