@@ -20,32 +20,47 @@ public class ShopBoxTag extends Sprite
 	public static const RED_TAG:String = "shop_red_tag";
 
 	private var background:SliceScalingBitmap;
+	private var _color:String;
+	private var _label:UILabel;
 
-	public function ShopBoxTag(_arg_1:String, _arg_2:String, _arg_3:Boolean = false)
+	public function ShopBoxTag(_arg_1:String, _arg_2:String, _arg_3:Boolean=false)
 	{
+		this._color = _arg_1;
 		this.background = TextureParser.instance.getSliceScalingBitmap("UI", _arg_1);
 		this.background.scaleType = SliceScalingBitmap.SCALE_TYPE_9;
 		addChild(this.background);
-		var _local_4:UILabel = new UILabel();
-		_local_4.autoSize = TextFieldAutoSize.LEFT;
-		_local_4.text = _arg_2;
-		_local_4.x = 4;
+		this._label = new UILabel();
+		this._label.autoSize = TextFieldAutoSize.LEFT;
+		this._label.text = _arg_2;
+		this._label.x = 4;
 		if (_arg_3)
 		{
-			DefaultLabelFormat.popupTag(_local_4);
+			DefaultLabelFormat.popupTag(this._label);
 		}
 		else
 		{
-			DefaultLabelFormat.shopTag(_local_4);
+			DefaultLabelFormat.shopTag(this._label);
 		}
-		addChild(_local_4);
-		this.background.width = (_local_4.textWidth + 8);
-		this.background.height = (_local_4.textHeight + 8);
+		addChild(this._label);
+		this.background.width = (this._label.textWidth + 8);
+		this.background.height = (this._label.textHeight + 8);
+	}
+
+	public function updateLabel(_arg_1:String):void
+	{
+		this._label.text = _arg_1;
+		this.background.width = (this._label.textWidth + 8);
+		this.background.height = (this._label.textHeight + 8);
 	}
 
 	public function dispose():void
 	{
 		this.background.dispose();
+	}
+
+	public function get color():String
+	{
+		return (this._color);
 	}
 
 

@@ -69,11 +69,14 @@ public class UIGrid extends Sprite
 
 	public function addGridElement(_arg_1:UIGridElement):void
 	{
-		this.elements.push(_arg_1);
-		this.gridContent.addChild(_arg_1);
-		if (this.stage)
+		if (this.elements)
 		{
-			this.render();
+			this.elements.push(_arg_1);
+			this.gridContent.addChild(_arg_1);
+			if (this.stage)
+			{
+				this.render();
+			}
 		}
 	}
 
@@ -100,12 +103,26 @@ public class UIGrid extends Sprite
 	public function clearGrid():void
 	{
 		var _local_1:UIGridElement;
+		var _local_2:SliceScalingBitmap;
 		for each (_local_1 in this.elements)
 		{
 			this.gridContent.removeChild(_local_1);
 			_local_1.dispose();
 		}
-		this.elements.length = 0;
+		for each (_local_2 in this.decors)
+		{
+			this.gridContent.removeChild(_local_2);
+			_local_2.dispose();
+		}
+		if (this.elements)
+		{
+			this.elements.length = 0;
+		}
+		if (this.decors)
+		{
+			this.decors.length = 0;
+		}
+		this.lastRenderedItemsNumber = 0;
 	}
 
 	public function render():void

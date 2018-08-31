@@ -23,8 +23,9 @@ public class UITabs extends Sprite
 	private var tabsWidth:int;
 	private var background:TabContentBackground;
 	private var currentContent:UITab;
-	private var defaultSelectedIndex:int;
+	private var defaultSelectedIndex:int = 0;
 	private var borderlessMode:Boolean;
+	private var _currentTabLabel:String;
 
 	public function UITabs(_arg_1:int, _arg_2:Boolean = false)
 	{
@@ -57,7 +58,12 @@ public class UITabs extends Sprite
 		{
 			this.defaultSelectedIndex = (this.content.length - 1);
 			this.currentContent = _arg_1;
+			this._currentTabLabel = _arg_1.tabName;
 			addChild(_arg_1);
+		}
+		if (this._currentTabLabel == "")
+		{
+			this._currentTabLabel = _arg_1.tabName;
 		}
 	}
 
@@ -115,6 +121,7 @@ public class UITabs extends Sprite
 		var _local_3:TabButton;
 		var _local_2:int = this.buttons.indexOf(_arg_1);
 		_arg_1.y = 0;
+		this._currentTabLabel = _arg_1.label.text;
 		this.tabSelectedSignal.dispatch(_arg_1.label.text);
 		for each (_local_3 in this.buttons)
 		{
@@ -217,6 +224,11 @@ public class UITabs extends Sprite
 		this.currentContent.dispose();
 		this.content = null;
 		this.buttons = null;
+	}
+
+	public function get currentTabLabel():String
+	{
+		return (this._currentTabLabel);
 	}
 
 

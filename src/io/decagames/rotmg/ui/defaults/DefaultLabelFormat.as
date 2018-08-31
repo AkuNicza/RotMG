@@ -216,6 +216,20 @@ public class DefaultLabelFormat
 		applyTextFromat(_local_2, _arg_1);
 	}
 
+	public static function popupStartsIn(_arg_1:UILabel):void
+	{
+		var _local_2:TextFormat = createTextFormat(24, 0xFF4200, TextFormatAlign.LEFT, true);
+		_arg_1.filters = [new DropShadowFilter(1, 90, 0, 1, 2, 2), new DropShadowFilter(0, 90, 0, 0.4, 4, 4, 1, BitmapFilterQuality.HIGH)];
+		applyTextFromat(_local_2, _arg_1);
+	}
+
+	public static function mysteryBoxStartsIn(_arg_1:UILabel):void
+	{
+		var _local_2:TextFormat = createTextFormat(12, 0xFF4200, TextFormatAlign.LEFT, true);
+		_arg_1.filters = [new DropShadowFilter(1, 90, 0, 1, 2, 2), new DropShadowFilter(0, 90, 0, 0.4, 0, 0, 3, BitmapFilterQuality.HIGH)];
+		applyTextFromat(_local_2, _arg_1);
+	}
+
 	public static function priceButtonLabel(_arg_1:UILabel):void
 	{
 		var _local_2:TextFormat = new TextFormat();

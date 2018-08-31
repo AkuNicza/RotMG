@@ -70,7 +70,6 @@ public class WebLoginCommand
 		_local_1.add(new DispatchSignalTask(this.updateLogin));
 		_local_1.add(new DispatchSignalTask(this.invalidate));
 		_local_1.add(this.getPackageTask);
-		this.mysteryBoxTask.lastRan = 0;
 		_local_1.add(this.mysteryBoxTask);
 		_local_1.add(this.setScreenTask);
 		return (_local_1);

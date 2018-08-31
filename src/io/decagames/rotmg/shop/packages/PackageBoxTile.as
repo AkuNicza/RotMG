@@ -14,18 +14,18 @@ import kabam.rotmg.packages.model.PackageInfo;
 public class PackageBoxTile extends GenericBoxTile
 {
 
-	private var backgroundContainer:Sprite = new Sprite();
 	private var imageMask:SliceScalingBitmap;
 
 	public function PackageBoxTile(_arg_1:GenericBoxInfo, _arg_2:Boolean = false)
 	{
 		buyButtonBitmapBackground = "buy_button_background";
+		backgroundContainer = new Sprite();
 		super(_arg_1, _arg_2);
 	}
 
 	override protected function createBoxBackground():void
 	{
-		addChild(this.backgroundContainer);
+		addChild(backgroundContainer);
 		this.resizeBackgroundImage();
 	}
 
@@ -40,14 +40,14 @@ public class PackageBoxTile extends GenericBoxTile
 		{
 			_local_1 = PackageInfo(_boxInfo).loader;
 		}
-		if (((_local_1) && (!(_local_1.parent == this.backgroundContainer))))
+		if (((_local_1) && (!(_local_1.parent == backgroundContainer))))
 		{
-			this.backgroundContainer.addChild(_local_1);
-			this.backgroundContainer.cacheAsBitmap = true;
+			backgroundContainer.addChild(_local_1);
+			backgroundContainer.cacheAsBitmap = true;
 			this.imageMask = background.clone();
 			addChild(this.imageMask);
 			this.imageMask.cacheAsBitmap = true;
-			this.backgroundContainer.mask = this.imageMask;
+			backgroundContainer.mask = this.imageMask;
 		}
 		if (this.imageMask)
 		{
@@ -95,10 +95,11 @@ public class PackageBoxTile extends GenericBoxTile
 		}
 		_spinner.x = (backgroundButton.x + 34);
 		_spinner.y = (background.height - 53);
-		updateTimeEndString();
 		this.resizeBackgroundImage();
 		updateSaleLabel();
 		updateClickMask(_arg_1);
+		updateTimeEndString(_arg_1);
+		updateStartTimeString(_arg_1);
 	}
 
 

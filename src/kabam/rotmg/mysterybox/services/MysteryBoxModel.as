@@ -4,8 +4,11 @@ package kabam.rotmg.mysterybox.services
 {
 import kabam.rotmg.mysterybox.model.MysteryBoxInfo;
 
+import org.osflash.signals.Signal;
+
 public class MysteryBoxModel
 {
+	public const updateSignal:Signal = new Signal();
 
 	private var models:Object;
 	private var initialized:Boolean = false;
@@ -32,6 +35,19 @@ public class MysteryBoxModel
 		return (_local_1);
 	}
 
+	public function getBoxById(_arg_1:String):MysteryBoxInfo
+	{
+		var _local_2:MysteryBoxInfo;
+		for each (_local_2 in this.models)
+		{
+			if (_local_2.id == _arg_1)
+			{
+				return (_local_2);
+			}
+		}
+		return (null);
+	}
+
 	public function setMysetryBoxes(_arg_1:Array):void
 	{
 		var _local_2:MysteryBoxInfo;
@@ -40,6 +56,7 @@ public class MysteryBoxModel
 		{
 			this.models[_local_2.id] = _local_2;
 		}
+		this.updateSignal.dispatch();
 		this.initialized = true;
 	}
 

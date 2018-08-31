@@ -516,7 +516,6 @@ public class MysteryBoxRollModal extends Sprite
 			_local_7.dispatch(_local_9);
 			_local_10 = StaticInjectorContext.getInjector();
 			_local_11 = _local_10.getInstance(GetMysteryBoxesTask);
-			_local_11.clearLastRanBlock();
 			_local_11.start();
 			this.close(true);
 		}

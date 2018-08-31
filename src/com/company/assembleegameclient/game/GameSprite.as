@@ -332,7 +332,7 @@ public class GameSprite extends AGameSprite
 			this.giftStatusDisplay.y = _local_2;
 			_local_2 = (_local_2 + DISPLAY_AREA_Y_SPACE);
 		}
-		if (this.newsModalButton && NewsModalButton.showsHasUpdate || _local_1.hasValidModalNews())
+		if (this.newsModalButton && (NewsModalButton.showsHasUpdate || _local_1.hasValidModalNews()))
 		{
 			this.newsModalButton.y = _local_2;
 			_local_2 = (_local_2 + DISPLAY_AREA_Y_SPACE);
@@ -507,7 +507,7 @@ public class GameSprite extends AGameSprite
 		for each (_local_7 in map.goDict_)
 		{
 			_local_8 = (_local_7 as IInteractiveObject);
-			if (_local_8 && !(_local_8 is Pet) || this.map.isPetYard)
+			if (_local_8 && (!(_local_8 is Pet) || this.map.isPetYard))
 			{
 				if (((Math.abs((_local_5 - _local_7.x_)) < GeneralConstants.MAXIMUM_INTERACTION_DISTANCE) || (Math.abs((_local_6 - _local_7.y_)) < GeneralConstants.MAXIMUM_INTERACTION_DISTANCE)))
 				{

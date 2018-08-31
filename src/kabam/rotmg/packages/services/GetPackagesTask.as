@@ -4,9 +4,6 @@ package kabam.rotmg.packages.services
 {
 import com.company.assembleegameclient.util.TimeUtil;
 
-import flash.events.TimerEvent;
-import flash.utils.Timer;
-
 import kabam.lib.tasks.BaseTask;
 import kabam.rotmg.account.core.Account;
 import kabam.rotmg.appengine.api.AppEngineClient;
@@ -17,10 +14,8 @@ import robotlegs.bender.framework.api.ILogger;
 
 public class GetPackagesTask extends BaseTask
 {
+	private static var version:String = "0";
 
-	private static const HOUR:int = ((1000 * 60) * 60);//3600000
-
-	public var timer:Timer = new Timer(HOUR);
 	[Inject]
 	public var client:AppEngineClient;
 	[Inject]
@@ -37,6 +32,7 @@ public class GetPackagesTask extends BaseTask
 	{
 		var _local_1:Object = this.account.getCredentials();
 		_local_1.language = this.languageModel.getLanguage();
+		_local_1.version = version;
 		this.client.sendRequest("/package/getPackages", _local_1);
 		this.client.complete.addOnce(this.onComplete);
 	}
@@ -52,22 +48,41 @@ public class GetPackagesTask extends BaseTask
 			this.logger.warn("GetPackageTask.onComplete: Request failed.");
 			completeTask(true);
 		}
+		reset();
 	}
 
 	private function handleOkay(_arg_1:*):void
 	{
-		if (this.hasNoPackage(_arg_1))
+		version = XML(_arg_1).attribute("version").toString();
+		var _local_2:XMLList = XML(_arg_1).child("Package");
+		var _local_3:XMLList = XML(_arg_1).child("SoldCounter");
+		if (_local_3.length() > 0)
 		{
-			this.logger.info("GetPackageTask.onComplete: No package available, retrying in 1 hour.");
-			this.timer.addEventListener(TimerEvent.TIMER, this.timer_timerHandler);
-			this.timer.start();
-			this.packageModel.setPackages([]);
+			this.updateSoldCounters(_local_3);
+		}
+		if (_local_2.length() > 0)
+		{
+			this.parse(_local_2);
 		}
 		else
 		{
-			this.parse(XML(_arg_1).child("Package"));
+			if (this.packageModel.getInitialized())
+			{
+				this.packageModel.updateSignal.dispatch();
+			}
 		}
 		completeTask(true);
+	}
+
+	private function updateSoldCounters(_arg_1:XMLList):void
+	{
+		var _local_2:XML;
+		var _local_3:PackageInfo;
+		for each (_local_2 in _arg_1)
+		{
+			_local_3 = this.packageModel.getPackageById(_local_2.attribute("id").toString());
+			_local_3.unitsLeft = _local_2.attribute("left");
+		}
 	}
 
 	private function hasNoPackage(_arg_1:*):Boolean
@@ -133,29 +148,6 @@ public class GetPackagesTask extends BaseTask
 			_local_2.push(_local_4);
 		}
 		this.packageModel.setPackages(_local_2);
-	}
-
-	private function getNumPurchased(packagesXML:XML, packageID:int):int
-	{
-		var packageHistory:XMLList;
-		var numPurchased:int;
-		var history:XMLList = packagesXML.History;
-		if (history)
-		{
-			packageHistory = history.Package.(@id == packageID);
-			if (packageHistory)
-			{
-				numPurchased = int(packageHistory.Count);
-			}
-		}
-		return (numPurchased);
-	}
-
-	private function timer_timerHandler(_arg_1:TimerEvent):void
-	{
-		this.timer.removeEventListener(TimerEvent.TIMER, this.timer_timerHandler);
-		this.timer.stop();
-		this.startTask();
 	}
 
 

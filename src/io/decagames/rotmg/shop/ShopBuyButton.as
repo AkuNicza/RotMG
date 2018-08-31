@@ -67,8 +67,11 @@ public class ShopBuyButton extends SliceScalingButton
 	public function set price(_arg_1:int):void
 	{
 		this._price = _arg_1;
-		this.priceLabel.text = _arg_1.toString();
-		this.updateLabelPosition();
+		if (!this._soldOut)
+		{
+			this.priceLabel.text = _arg_1.toString();
+			this.updateLabelPosition();
+		}
 	}
 
 	public function get priceLabel():UILabel
@@ -88,7 +91,10 @@ public class ShopBuyButton extends SliceScalingButton
 		if (_arg_1)
 		{
 			this._priceLabel.text = "Sold out";
-			removeChild(this.coinBitmap);
+			if (this.coinBitmap && this.coinBitmap.parent)
+			{
+				removeChild(this.coinBitmap);
+			}
 		}
 		else
 		{

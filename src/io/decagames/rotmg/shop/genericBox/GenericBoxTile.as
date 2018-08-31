@@ -3,6 +3,7 @@
 package io.decagames.rotmg.shop.genericBox
 {
 import flash.display.Sprite;
+import flash.geom.ColorTransform;
 
 import io.decagames.rotmg.shop.ShopBoxTag;
 import io.decagames.rotmg.shop.ShopBuyButton;
@@ -14,6 +15,7 @@ import io.decagames.rotmg.ui.labels.UILabel;
 import io.decagames.rotmg.ui.sliceScaling.SliceScalingBitmap;
 import io.decagames.rotmg.ui.spinner.FixedNumbersSpinner;
 import io.decagames.rotmg.ui.texture.TextureParser;
+import io.decagames.rotmg.utils.colors.Tint;
 
 public class GenericBoxTile extends UIGridElement
 {
@@ -29,17 +31,22 @@ public class GenericBoxTile extends UIGridElement
 	protected var _spinner:FixedNumbersSpinner;
 	protected var _boxInfo:GenericBoxInfo;
 	protected var _endTimeLabel:UILabel;
+	protected var _startTimeLabel:UILabel;
 	protected var originalPriceLabel:SalePriceTag;
 	protected var _isPopup:Boolean;
 	protected var _clickMask:Sprite;
 	protected var boxHeight:int = 184;
+	private var _isAvailable:Boolean = true;
 	private var clickMaskAlpha:Number = 0;
+	private var tagContainer:Sprite;
+	protected var backgroundContainer:Sprite;
 
 	public function GenericBoxTile(_arg_1:GenericBoxInfo, _arg_2:Boolean = false)
 	{
 		this._boxInfo = _arg_1;
 		this._isPopup = _arg_2;
 		this.background = TextureParser.instance.getSliceScalingBitmap("UI", "shop_box_background", 10);
+		this.tagContainer = new Sprite();
 		if (!_arg_2)
 		{
 			this.backgroundTitle = TextureParser.instance.getSliceScalingBitmap("UI", "shop_title_background", 10);
@@ -96,9 +103,26 @@ public class GenericBoxTile extends UIGridElement
 		{
 			addChild(this._infoButton);
 		}
+		addChild(this.tagContainer);
 		this.createBoxTags();
 		this.createEndTime();
-		this.updateTimeEndString();
+		this.createStartTime();
+		this.updateTimeEndString(this.background.width);
+		this.updateStartTimeString(this.background.width);
+		_arg_1.updateSignal.add(this.updateBox);
+	}
+
+	private function updateBox():void
+	{
+		var _local_1:ShopBoxTag = this.getTagByType(ShopBoxTag.PURPLE_TAG);
+		if (_local_1)
+		{
+			_local_1.updateLabel((this._boxInfo.unitsLeft + " LEFT!"));
+		}
+		if (this.boxInfo.unitsLeft == 0)
+		{
+			this._buyButton.soldOut = true;
+		}
 	}
 
 	private function createEndTime():void
@@ -114,6 +138,34 @@ public class GenericBoxTile extends UIGridElement
 		{
 			DefaultLabelFormat.mysteryBoxEndsIn(this._endTimeLabel);
 		}
+	}
+
+	private function createStartTime():void
+	{
+		this._startTimeLabel = new UILabel();
+		this._startTimeLabel.y = 28;
+		addChild(this._startTimeLabel);
+		if (this._isPopup)
+		{
+			DefaultLabelFormat.popupStartsIn(this._startTimeLabel);
+		}
+		else
+		{
+			DefaultLabelFormat.mysteryBoxStartsIn(this._startTimeLabel);
+		}
+	}
+
+	private function getTagByType(_arg_1:String):ShopBoxTag
+	{
+		var _local_2:ShopBoxTag;
+		for each (_local_2 in this.tags)
+		{
+			if (_local_2.color == _arg_1)
+			{
+				return (_local_2);
+			}
+		}
+		return (null);
 	}
 
 	private function createBoxTags():void
@@ -155,14 +207,94 @@ public class GenericBoxTile extends UIGridElement
 	{
 	}
 
-	protected function updateTimeEndString():void
+	protected function updateTimeEndString(_arg_1:int):void
 	{
-		var _local_1:String = this.boxInfo.getEndTimeString();
-		if (_local_1)
+		var _local_2:String = this.boxInfo.getEndTimeString();
+		var _local_3:String = this.boxInfo.getStartTimeString();
+		if (((_local_3 == "") && (_local_2)))
 		{
-			this._endTimeLabel.text = _local_1;
-			this._endTimeLabel.x = ((this.background.width - this._endTimeLabel.width) / 2);
+			this._endTimeLabel.text = _local_2;
+			this._endTimeLabel.x = ((_arg_1 - this._endTimeLabel.width) / 2);
 		}
+		else
+		{
+			this._endTimeLabel.text = "";
+		}
+	}
+
+	protected function updateStartTimeString(_arg_1:int):void
+	{
+		var _local_2:String = this.boxInfo.getStartTimeString();
+		if (_local_2)
+		{
+			this._startTimeLabel.text = _local_2;
+			this._startTimeLabel.x = ((_arg_1 - this._startTimeLabel.width) / 2);
+			this.isAvailable = false;
+		}
+		else
+		{
+			this.isAvailable = true;
+			this._startTimeLabel.text = "";
+		}
+	}
+
+	private function set isAvailable(_arg_1:Boolean):void
+	{
+		var _local_2:Number;
+		if (this._isAvailable == _arg_1)
+		{
+			return;
+		}
+		if (_arg_1)
+		{
+			this._buyButton.disabled = false;
+			this.background.transform.colorTransform = new ColorTransform();
+			if (!this._isPopup)
+			{
+				this.backgroundTitle.transform.colorTransform = new ColorTransform();
+				if (this._infoButton.alpha != 0)
+				{
+					this._infoButton.transform.colorTransform = new ColorTransform();
+				}
+			}
+			this._spinner.transform.colorTransform = new ColorTransform();
+			this.titleLabel.transform.colorTransform = new ColorTransform();
+			this._buyButton.transform.colorTransform = new ColorTransform();
+			if (this.backgroundContainer)
+			{
+				this.backgroundContainer.transform.colorTransform = new ColorTransform();
+			}
+			if (this.buyButtonBitmapBackground)
+			{
+				this.backgroundButton.transform.colorTransform = new ColorTransform();
+			}
+		}
+		else
+		{
+			_local_2 = 0.3;
+			Tint.add(this.background, 0, _local_2);
+			if (!this._isPopup)
+			{
+				Tint.add(this.backgroundTitle, 0, _local_2);
+				if (this._infoButton.alpha != 0)
+				{
+					Tint.add(this._infoButton, 0, _local_2);
+				}
+			}
+			Tint.add(this._spinner, 0, _local_2);
+			Tint.add(this.titleLabel, 0, _local_2);
+			Tint.add(this._buyButton, 0, _local_2);
+			if (this.backgroundContainer)
+			{
+				Tint.add(this.backgroundContainer, 0, _local_2);
+			}
+			this._buyButton.disabled = true;
+			if (this.buyButtonBitmapBackground)
+			{
+				Tint.add(this.backgroundButton, 0, _local_2);
+			}
+		}
+		this._isAvailable = _arg_1;
 	}
 
 	override public function get height():Number
@@ -195,9 +327,10 @@ public class GenericBoxTile extends UIGridElement
 			this._infoButton.x = 130;
 			this._infoButton.y = 45;
 		}
-		this.updateTimeEndString();
 		this.updateSaleLabel();
 		this.updateClickMask(_arg_1);
+		this.updateTimeEndString(_arg_1);
+		this.updateStartTimeString(_arg_1);
 	}
 
 	protected function updateClickMask(_arg_1:int):void
@@ -230,12 +363,21 @@ public class GenericBoxTile extends UIGridElement
 
 	override public function update():void
 	{
-		this.updateTimeEndString();
+		this.updateTimeEndString(this.background.width);
+		this.updateStartTimeString(this.background.width);
+		if (!this._isPopup && (this._startTimeLabel.text != "" || this._endTimeLabel.text != ""))
+		{
+			this.tagContainer.y = 10;
+		}
+		else
+		{
+			this.tagContainer.y = 0;
+		}
 	}
 
 	public function addTag(_arg_1:ShopBoxTag):void
 	{
-		addChild(_arg_1);
+		this.tagContainer.addChild(_arg_1);
 		_arg_1.y = (33 + (this.tags.length * _arg_1.height));
 		_arg_1.x = -5;
 		this.tags.push(_arg_1);
@@ -259,6 +401,7 @@ public class GenericBoxTile extends UIGridElement
 	override public function dispose():void
 	{
 		var _local_1:ShopBoxTag;
+		this.boxInfo.updateSignal.remove(this.updateBox);
 		this.background.dispose();
 		if (this.backgroundTitle)
 		{

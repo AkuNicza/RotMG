@@ -6,8 +6,11 @@ import com.company.assembleegameclient.util.TimeUtil;
 
 import io.decagames.rotmg.utils.date.TimeLeft;
 
+import org.osflash.signals.Signal;
+
 public class GenericBoxInfo
 {
+	public const updateSignal:Signal = new Signal();
 
 	protected var _id:String;
 	protected var _title:String;
@@ -166,6 +169,7 @@ public class GenericBoxInfo
 	public function set unitsLeft(_arg_1:int):void
 	{
 		this._unitsLeft = _arg_1;
+		this.updateSignal.dispatch();
 	}
 
 	public function get totalUnits():int
@@ -208,6 +212,12 @@ public class GenericBoxInfo
 		return ((this._endTime.time - _local_1.time) / 1000);
 	}
 
+	public function getSecondsToStart():Number
+	{
+		var _local_1:Date = new Date();
+		return ((this._startTime.time - _local_1.time) / 1000);
+	}
+
 	public function isOnSale():Boolean
 	{
 		var _local_1:Date;
@@ -222,7 +232,37 @@ public class GenericBoxInfo
 	public function isNew():Boolean
 	{
 		var _local_1:Date = new Date();
+		if (this._startTime.time > _local_1.time)
+		{
+			return (false);
+		}
 		return (Math.ceil(TimeUtil.secondsToDays(((_local_1.time - this._startTime.time) / 1000))) <= 1);
+	}
+
+	public function getStartTimeString():String
+	{
+		var _local_1:* = "Available in: ";
+		var _local_2:Number = this.getSecondsToStart();
+		if (_local_2 <= 0)
+		{
+			return ("");
+		}
+		if (_local_2 > TimeUtil.DAY_IN_S)
+		{
+			_local_1 = (_local_1 + TimeLeft.parse(_local_2, "%dd %hh"));
+		}
+		else
+		{
+			if (_local_2 > TimeUtil.HOUR_IN_S)
+			{
+				_local_1 = (_local_1 + TimeLeft.parse(_local_2, "%hh %mm"));
+			}
+			else
+			{
+				_local_1 = (_local_1 + TimeLeft.parse(_local_2, "%mm %ss"));
+			}
+		}
+		return (_local_1);
 	}
 
 	public function getEndTimeString():String

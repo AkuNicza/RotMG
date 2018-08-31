@@ -24,6 +24,10 @@ public class UITab extends Sprite
 
 	public function addContent(_arg_1:Sprite):void
 	{
+		if (this._content && this._content.parent)
+		{
+			removeChild(this._content);
+		}
 		this._content = _arg_1;
 		addChild(this._content);
 	}

@@ -4,12 +4,9 @@ package kabam.rotmg.mysterybox.services
 {
 import com.company.assembleegameclient.util.TimeUtil;
 
-import flash.utils.getTimer;
-
 import kabam.lib.tasks.BaseTask;
 import kabam.rotmg.account.core.Account;
 import kabam.rotmg.appengine.api.AppEngineClient;
-import kabam.rotmg.application.DynamicSettings;
 import kabam.rotmg.dialogs.control.OpenDialogSignal;
 import kabam.rotmg.fortune.model.FortuneInfo;
 import kabam.rotmg.fortune.services.FortuneModel;
@@ -20,8 +17,6 @@ import robotlegs.bender.framework.api.ILogger;
 
 public class GetMysteryBoxesTask extends BaseTask
 {
-
-	private static const TEN_MINUTES:int = 600;
 	private static var version:String = "0";
 
 	[Inject]
@@ -38,46 +33,19 @@ public class GetMysteryBoxesTask extends BaseTask
 	public var languageModel:LanguageModel;
 	[Inject]
 	public var openDialogSignal:OpenDialogSignal;
-	public var lastRan:uint = 0;
 
 
 	override protected function startTask():void
 	{
-		var _local_1:Number;
-		var _local_2:Object;
-		if (DynamicSettings.settingExists("MysteryBoxRefresh"))
-		{
-			_local_1 = DynamicSettings.getSettingValue("MysteryBoxRefresh");
-		}
-		else
-		{
-			_local_1 = TEN_MINUTES;
-		}
-		if (((this.lastRan == 0) || ((this.lastRan + _local_1) < (getTimer() / 1000))))
-		{
-			this.lastRan = (getTimer() / 1000);
-			completeTask(true);
-			_local_2 = this.account.getCredentials();
-			_local_2.language = this.languageModel.getLanguage();
-			_local_2.version = version;
-			this.client.sendRequest("/mysterybox/getBoxes", _local_2);
-			this.client.complete.addOnce(this.onComplete);
-		}
-		else
-		{
-			completeTask(true);
-			reset();
-		}
-	}
-
-	public function clearLastRanBlock():void
-	{
-		this.lastRan = 0;
+		var _local_1:Object = this.account.getCredentials();
+		_local_1.language = this.languageModel.getLanguage();
+		_local_1.version = version;
+		this.client.sendRequest("/mysterybox/getBoxes", _local_1);
+		this.client.complete.addOnce(this.onComplete);
 	}
 
 	private function onComplete(_arg_1:Boolean, _arg_2:*):void
 	{
-		reset();
 		if (_arg_1)
 		{
 			this.handleOkay(_arg_2);
@@ -85,32 +53,34 @@ public class GetMysteryBoxesTask extends BaseTask
 		else
 		{
 			this.logger.warn("GetMysteryBox.onComplete: Request failed.");
-			completeTask(false);
+			completeTask(true);
 		}
 	}
 
 	private function handleOkay(_arg_1:*):void
 	{
-		var _local_2:XMLList;
-		var _local_3:XMLList;
-		if (this.hasNoBoxes(_arg_1))
+		version = XML(_arg_1).attribute("version").toString();
+		var _local_2:XMLList = XML(_arg_1).child("MysteryBox");
+		var _local_3:XMLList = XML(_arg_1).child("SoldCounter");
+		if (_local_3.length() > 0)
 		{
-			if (this.mysteryBoxModel.isInitialized())
-			{
-				return;
-			}
-			this.mysteryBoxModel.setInitialized(false);
+			this.updateSoldCounters(_local_3);
+		}
+		if (_local_2.length() > 0)
+		{
+			this.parse(_local_2);
 		}
 		else
 		{
-			version = XML(_arg_1).attribute("version").toString();
-			_local_2 = XML(_arg_1).child("MysteryBox");
-			this.parse(_local_2);
-			_local_3 = XML(_arg_1).child("FortuneGame");
-			if (_local_3.length() > 0)
+			if (this.mysteryBoxModel.isInitialized())
 			{
-				this.parseFortune(_local_3);
+				this.mysteryBoxModel.updateSignal.dispatch();
 			}
+		}
+		var _local_4:XMLList = XML(_arg_1).child("FortuneGame");
+		if (_local_4.length() > 0)
+		{
+			this.parseFortune(_local_4);
 		}
 		completeTask(true);
 	}
@@ -138,6 +108,17 @@ public class GetMysteryBoxesTask extends BaseTask
 		_local_2.endTime = TimeUtil.parseUTCDate(_arg_1.EndTime.toString());
 		_local_2.parseContents();
 		this.fortuneModel.setFortune(_local_2);
+	}
+
+	private function updateSoldCounters(_arg_1:XMLList):void
+	{
+		var _local_2:XML;
+		var _local_3:MysteryBoxInfo;
+		for each (_local_2 in _arg_1)
+		{
+			_local_3 = this.mysteryBoxModel.getBoxById(_local_2.attribute("id").toString());
+			_local_3.unitsLeft = _local_2.attribute("left");
+		}
 	}
 
 	private function parse(_arg_1:XMLList):void

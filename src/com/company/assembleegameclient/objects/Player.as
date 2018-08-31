@@ -375,7 +375,7 @@ public class Player extends Character
 		var _local_2:int = this.msUtilTeleport();
 		if (_local_2 > 0)
 		{
-			if (_local_2 >! MS_BETWEEN_TELEPORT && !_arg_1.isFellowGuild_)
+			if (!(_local_2 > MS_BETWEEN_TELEPORT) && !_arg_1.isFellowGuild_)
 			{
 				this.addTextLine.dispatch(this.makeErrorMessage(TextKey.PLAYER_TELEPORT_COOLDOWN, {"seconds": int(((_local_2 / 1000) + 1))}));
 				return (false);

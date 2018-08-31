@@ -18,8 +18,6 @@ import kabam.rotmg.packages.control.OpenPackageSignal;
 import kabam.rotmg.packages.control.PackageAvailableSignal;
 import kabam.rotmg.packages.services.GetPackagesTask;
 import kabam.rotmg.packages.services.PackageModel;
-import kabam.rotmg.packages.view.PackageButton;
-import kabam.rotmg.packages.view.PackageButtonMediator;
 import kabam.rotmg.packages.view.PackageInfoDialog;
 import kabam.rotmg.packages.view.PackageInfoMediator;
 import kabam.rotmg.packages.view.PackageOfferDialog;
@@ -50,7 +48,6 @@ public class PackageConfig implements IConfig
 		this.injector.map(PackageModel).asSingleton();
 		this.injector.map(PackageAvailableSignal).asSingleton();
 		this.injector.map(GetPackagesTask);
-		this.mediatorMap.map(PackageButton).toMediator(PackageButtonMediator);
 		this.mediatorMap.map(PackageOfferDialog).toMediator(PackageOfferDialogMediator);
 		this.mediatorMap.map(PackageInfoDialog).toMediator(PackageInfoMediator);
 		this.mediatorMap.map(Resizable).toMediator(ResizableMediator);

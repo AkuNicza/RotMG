@@ -148,9 +148,10 @@ public class MysteryBoxTile extends GenericBoxTile
 		{
 			this.displayedItemsGrid.x = (10 + Math.round(((this.maxResultWidth - (this.resultElementWidth * this.gridConfig.x)) / 2)));
 		}
-		updateTimeEndString();
 		updateSaleLabel();
 		updateClickMask(_arg_1);
+		updateTimeEndString(_arg_1);
+		updateStartTimeString(_arg_1);
 	}
 
 	override public function dispose():void
